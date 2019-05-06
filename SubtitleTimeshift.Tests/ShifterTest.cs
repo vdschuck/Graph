@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Reflection;
 using System.IO;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace SubtitleTimeshift.Tests
 {
@@ -22,7 +23,13 @@ namespace SubtitleTimeshift.Tests
             using (var inputStream = new FileStream(inputPath, FileMode.Open, FileAccess.Read))
             using (var outputStream = new FileStream(outputPath, FileMode.Truncate, FileAccess.ReadWrite))
             {
+                var sw =  Stopwatch.StartNew();
+
                 await Shifter.Shift(inputStream, outputStream, timeSpan, encoding);
+
+                sw.Stop();
+
+                Console.WriteLine("Time: " + sw.ElapsedMilliseconds);
             }
 
             using (var outputStream = new FileStream(outputPath, FileMode.Open, FileAccess.Read))
@@ -36,7 +43,7 @@ namespace SubtitleTimeshift.Tests
                 while(null != (assertLine = await assertReader.ReadLineAsync()))
                 {
                     Assert.IsFalse(outputReader.EndOfStream);
-                    outputLine = await outputReader.ReadLineAsync();
+                    outputLine = await outputReader.ReadLineAsync();                   
                     Assert.AreEqual(assertLine, outputLine);
                 }
             }
