@@ -16,17 +16,14 @@ namespace Graph
 
         public List<GraphNode<T>> Previous;
 
-        public List<GraphNode<T>> Neighbors;
-
-        private readonly IList<IObserver<T>> Observers;
+        public List<GraphNode<T>> Neighbors;    
 
 
         public GraphNode(T value)
         {
             Value = value;
             Previous = new List<GraphNode<T>>();
-            Neighbors = new List<GraphNode<T>>();
-            Observers = new List<IObserver<T>>();
+            Neighbors = new List<GraphNode<T>>();            
         }  
 
         public bool AddNeighbor(GraphNode<T> neighbor)
@@ -58,7 +55,6 @@ namespace Graph
         public bool RemoveNeighbor(GraphNode<T> neighbor)
         {
             return Neighbors.Remove(neighbor);
-        }
-       
+        }       
     }
 }
