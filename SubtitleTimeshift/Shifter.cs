@@ -16,8 +16,7 @@ namespace SubtitleTimeshift
             using (var streamWriter = new StreamWriter(output, encoding, bufferSize, leaveOpen))
             {
                 // Accept this pattern 00:00:49,203 and 00:00:49.203
-                var culture = new CultureInfo("pt-BR");
-                var stringBuilder = new StringBuilder();
+                var culture = new CultureInfo("pt-BR");               
                 var line = string.Empty;                
 
                 while ((line = await streamReader.ReadLineAsync()) != null)
@@ -32,15 +31,13 @@ namespace SubtitleTimeshift
                         var startTime = start.Add(timeSpan).ToString(@"hh\:mm\:ss\.fff");
                         var endTime = end.Add(timeSpan).ToString(@"hh\:mm\:ss\.fff");
 
-                        stringBuilder.AppendLine(String.Format("{0} {1} {2}", startTime, identifier, endTime));                      
+                        await streamWriter.WriteLineAsync(String.Format("{0} {1} {2}", startTime, identifier, endTime));                                          
                     }
                     else
                     {
-                        stringBuilder.AppendLine(line);                       
+                        await streamWriter.WriteLineAsync(line);                 
                     }
                 }
-
-                await streamWriter.WriteAsync(stringBuilder.ToString());
             }
         }
     }

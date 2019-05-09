@@ -1,4 +1,5 @@
-﻿namespace Graph
+﻿
+namespace Graph
 {
     public interface ILink<T>
     {
@@ -16,6 +17,7 @@
 
         public T Source { get; private set; }
         public T Target { get; private set; }
+      
 
         public override string ToString()
         {
